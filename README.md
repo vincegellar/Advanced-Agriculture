@@ -13,7 +13,7 @@ Use a Raspberry PI to monitor, and care for your plants. Connect the sensors dir
 
 ## Hardware:
 - Raspberry PI 3 Model B / Raspberry PI Zero W
-- 
+- NodeMCU ESP8266
 
 ## Sensors used:
 - Temperature & Humidity: DHT11
@@ -28,7 +28,7 @@ Use a Raspberry PI to monitor, and care for your plants. Connect the sensors dir
 ## License:
 
 Advanced Agriculture: A plant automation IoT system.
-    Copyright (C) 2018  Vince Gellár (gellar.vince@gmail.com)
+    Copyright (C) 2018  Viktor Bán (viktor.ban@gmail.com), Vince Gellár (gellar.vince@gmail.com)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
