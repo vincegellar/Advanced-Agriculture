@@ -7,6 +7,7 @@ Use a Raspberry PI to monitor, and care for your plants. Connect the sensors dir
 - Automated Watering
 - Automated Light Provisioning
 - E-mail warnings
+- Web Statistics
 - Set Dark Hours
 - Set Silent Hours
 
