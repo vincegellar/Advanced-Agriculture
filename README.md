@@ -1,4 +1,4 @@
-# Advanced-Agriculture
+# Advanced Agriculture
 
 Advanced Agriculture: A plant automation IoT system.
     Copyright (C) 2018  Vince Gellár
