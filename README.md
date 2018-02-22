@@ -1,7 +1,33 @@
 # Advanced Agriculture
 
+## What is this all about?
+Use a Raspberry PI to monitor, and care for your plants. Connect the sensors directly to your PI, or use some NodeMCUs to connect many plants to one Raspberry. 
+
+## Features:
+- Automated Watering
+- Automated Light Provisioning
+- E-mail warnings
+- Set Dark Hours
+- Set Silent Hours
+
+## Hardware:
+- Raspberry PI 3 Model B / Raspberry PI Zero W
+- 
+
+## Sensors used:
+- Temperature & Humidity: DHT11
+- Soil Moisture
+- Light Inensity: BH1750FVI
+- Water Level In The Tank
+
+## Actuators used:
+- 12V Submersible Pump
+- Full Spectrum 10W Pink LED
+
+## License:
+
 Advanced Agriculture: A plant automation IoT system.
-    Copyright (C) 2018  Vince Gellár
+    Copyright (C) 2018  Vince Gellár (gellar.vince@gmail.com)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
