@@ -15,13 +15,13 @@ Use a Raspberry PI to monitor, and care for your plants. Connect the sensors dir
 - Raspberry PI 3 Model B / Raspberry PI Zero W
 - NodeMCU ESP8266
 
-## Sensors used:
+### Sensors:
 - Temperature & Humidity: DHT11
 - Soil Moisture
 - Light Inensity: BH1750FVI
 - Water Level In The Tank
 
-## Actuators used:
+### Actuators:
 - 12V Submersible Pump
 - Full Spectrum 10W Pink LED
 
