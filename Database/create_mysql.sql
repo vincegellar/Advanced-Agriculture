@@ -4,6 +4,7 @@ USE AdvancedAgriculture;
 
 CREATE TABLE Plants (
 	Id INT NOT NULL AUTO_INCREMENT,
+	MACAddress CHAR(12) NOT NULL,
 	Name VARCHAR(255) NOT NULL,
 	SoilMoistureLowTreshold INT NOT NULL,
 	SoilMoistureHighTreshold INT NOT NULL,
@@ -13,7 +14,8 @@ CREATE TABLE Plants (
 	HumidityHighTreshold INT NOT NULL,
 	LightLowTreshold INT NOT NULL,
 	LightHighTreshold INT NOT NULL,
-	PRIMARY KEY (Id)
+	PRIMARY KEY (Id),
+	UNIQUE INDEX (MACAddress)
 );
 
 CREATE TABLE Measurements (
