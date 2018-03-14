@@ -47,3 +47,25 @@ class Settings(Model):
 
 
 db.connect()
+
+
+class DataAccess:
+
+    def save_measurement(self, plant_id, water, temperature, humidity, light, moisture):
+        measurement = Measurements()
+        measurement.PlantId = plant_id
+        measurement.WaterLevel = water
+        measurement.Temperature = temperature
+        measurement.Humidity = humidity
+        measurement.Light = light
+        measurement.SoilMoisture = moisture
+        measurement.save(force_insert=True)
+
+    def get_id_by_address(self, mac_address):
+        pass
+
+    def configure(self, mac_address):
+        pass
+
+    def get_todays_light_exposure(self, plant_id):
+        pass

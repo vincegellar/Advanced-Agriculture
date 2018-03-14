@@ -30,5 +30,10 @@ def send_data():
     return '{}'
 
 
+@app.route('/configure', methods=['POST'])
+def configure():
+    return '{}'
+
+
 if __name__ == '__main__':
     app.run()
