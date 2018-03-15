@@ -1,4 +1,5 @@
 from peewee import *
+from datetime import datetime
 
 db = MySQLDatabase('AdvancedAgriculture', user='root', passwd='admin', host='localhost')
 
@@ -6,15 +7,15 @@ db = MySQLDatabase('AdvancedAgriculture', user='root', passwd='admin', host='loc
 class Plants(Model):
     Id = PrimaryKeyField()
     MACAddress = FixedCharField(12)
-    Name = CharField()
-    SoilMoistureLowTreshold = IntegerField()
-    SoilMoistureHighTreshold = IntegerField()
-    TemperatureLowTreshold = FloatField()
-    TemperatureHighTreshold = FloatField()
-    HumidityLowTreshold = IntegerField()
-    HumidityHighTreshold = IntegerField()
-    LightLowTreshold = IntegerField()
-    LightHighTreshold = IntegerField()
+    Name = CharField(null=True)
+    SoilMoistureLowTreshold = IntegerField(null=True)
+    SoilMoistureHighTreshold = IntegerField(null=True)
+    TemperatureLowTreshold = FloatField(null=True)
+    TemperatureHighTreshold = FloatField(null=True)
+    HumidityLowTreshold = IntegerField(null=True)
+    HumidityHighTreshold = IntegerField(null=True)
+    LightLowTreshold = IntegerField(null=True)
+    LightHighTreshold = IntegerField(null=True)
 
     class Meta:
         database = db
@@ -61,11 +62,15 @@ class DataAccess:
         measurement.SoilMoisture = moisture
         measurement.save(force_insert=True)
 
-    def get_id_by_address(self, mac_address):
-        pass
-
     def configure(self, mac_address):
-        pass
+        plant, created = Plants.get_or_create(MACAddress=mac_address)
+        return plant.Id
 
     def get_todays_light_exposure(self, plant_id):
-        pass
+        query = Measurements.select().where((Measurements.PlantId == plant_id)
+                                            & (Measurements.MeasureTime > datetime.now()
+                                               .replace(hour=0, minute=0, second=0, microsecond=0)))
+        collected_light = 0
+        for measurement in query:
+            collected_light += measurement.Light
+        return collected_light
