@@ -18,15 +18,14 @@ def send_data():
     global humidity
     global light
     global moisture
+    plant_id = int(request.values['id'])
     water += int(request.values['water'])
     temperature += float(request.values['temperature'])
     humidity += int(request.values['humidity'])
     light = int(request.values['light'])
     moisture = int(request.values['moisture'])
-
     global measurement_count
     measurement_count += 1
-
     return '{}'
 
 
