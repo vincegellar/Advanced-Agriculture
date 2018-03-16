@@ -55,7 +55,10 @@ def send_data():
 
 @app.route('/configure', methods=['POST'])
 def configure():
-    return '{}'
+    mac_address = request.values['mac_address']
+    plant_id = logic_layer.configure(mac_address)
+    response = {'plant_id': plant_id}
+    return jsonify(response)
 
 
 if __name__ == '__main__':
