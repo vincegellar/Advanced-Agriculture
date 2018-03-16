@@ -41,6 +41,7 @@ CREATE TABLE Settings (
 	DarkHoursEnd TIME DEFAULT NULL,
 	SilentHoursStart TIME DEFAULT NULL,
 	SilentHoursEnd TIME DEFAULT NULL,
+	PotSize INT DEFAULT 30,
 	PRIMARY KEY (PlantId),
 	CONSTRAINT PlantId2
 	FOREIGN KEY (PlantId)

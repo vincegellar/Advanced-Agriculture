@@ -7,15 +7,15 @@ db = MySQLDatabase('AdvancedAgriculture', user='root', passwd='admin', host='loc
 class Plants(Model):
     Id = PrimaryKeyField()
     MACAddress = FixedCharField(12)
-    Name = CharField(null=True)
-    SoilMoistureLowTreshold = IntegerField(null=True)
-    SoilMoistureHighTreshold = IntegerField(null=True)
-    TemperatureLowTreshold = FloatField(null=True)
-    TemperatureHighTreshold = FloatField(null=True)
-    HumidityLowTreshold = IntegerField(null=True)
-    HumidityHighTreshold = IntegerField(null=True)
-    LightLowTreshold = IntegerField(null=True)
-    LightHighTreshold = IntegerField(null=True)
+    Name = CharField()
+    SoilMoistureLowTreshold = IntegerField()
+    SoilMoistureHighTreshold = IntegerField()
+    TemperatureLowTreshold = FloatField()
+    TemperatureHighTreshold = FloatField()
+    HumidityLowTreshold = IntegerField()
+    HumidityHighTreshold = IntegerField()
+    LightLowTreshold = IntegerField()
+    LightHighTreshold = IntegerField()
 
     class Meta:
         database = db
@@ -41,6 +41,7 @@ class Settings(Model):
     DarkHoursEnd = TimeField()
     SilentHoursStart = TimeField()
     SilentHoursEnd = TimeField()
+    PotSize = IntegerField(default=30)
 
     class Meta:
         database = db
@@ -53,7 +54,7 @@ db.connect()
 class PlantData:
     def __init__(self, moisture_low: int, moisture_high: int, temp_low: float, temp_high: float, humidity_low: int,
                  humidity_high: int, light_low: int, light_high: int, dark_hours_start: time, dark_hours_end: time,
-                 silent_hours_start: time, silent_hours_end: time):
+                 silent_hours_start: time, silent_hours_end: time, pot_size: int):
         self.moisture_low = moisture_low
         self.moisture_high = moisture_high
         self.temp_low = temp_low
@@ -66,6 +67,7 @@ class PlantData:
         self.dark_hours_end = dark_hours_end
         self.silent_hours_start = silent_hours_start
         self.silent_hours_end = silent_hours_end
+        self.pot_size = pot_size
 
 
 class DataAccess:
@@ -112,4 +114,5 @@ class DataAccess:
         return PlantData(plant.MoistureLowTreshold, plant.MoistureHighTreshold, plant.TemperatureLowTreshold,
                          plant.TemperatureHighTreshold, plant.HumidityLowTreshold, plant.HumidityHighTreshold,
                          plant.LightLowTreshold, plant.LightHighTreshold, plant_settings.DarkHoursStart,
-                         plant_settings.DarkHoursEnd, plant_settings.SilentHoursStart, plant_settings.SilentHoursEnd)
+                         plant_settings.DarkHoursEnd, plant_settings.SilentHoursStart, plant_settings.SilentHoursEnd,
+                         plant_settings.PotSize)

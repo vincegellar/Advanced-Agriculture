@@ -1,6 +1,7 @@
 from dal import *
-from datetime import datetime, time
+from datetime import time
 from estimator import Estimator
+import numpy as np
 
 
 class PlantLogic:
@@ -23,8 +24,8 @@ class PlantLogic:
             if estimated_total_light < plant_data.light_low:
                 light_on = True
         if plant_data.silent_hours_start > time() > plant_data.silent_hours_end:
-            if moisture < plant_data.moisture_low:
-                water_time = 1
+            if moisture < plant_data.moisture_low + 10:
+                water_time = (((plant_data.pot_size / 2) ** 2 * np.pi * 0.04) / 280) * 3600
         return light_on, water_time
 
     def configure(self, mac_address: str) -> int:
