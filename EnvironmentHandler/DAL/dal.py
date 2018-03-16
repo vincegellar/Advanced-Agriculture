@@ -52,7 +52,7 @@ db.connect()
 
 class DataAccess:
 
-    def save_measurement(self, plant_id, water, temperature, humidity, light, moisture):
+    def save_measurement(self, plant_id: int, water: int, temperature: float, humidity: int, light: int, moisture: int):
         measurement = Measurements()
         measurement.PlantId = plant_id
         measurement.WaterLevel = water
@@ -62,11 +62,11 @@ class DataAccess:
         measurement.SoilMoisture = moisture
         measurement.save(force_insert=True)
 
-    def configure(self, mac_address):
+    def configure(self, mac_address: str):
         plant, created = Plants.get_or_create(MACAddress=mac_address)
         return plant.Id
 
-    def get_todays_light_exposure(self, plant_id):
+    def get_todays_light_exposure(self, plant_id: int):
         query = Measurements.select().where((Measurements.PlantId == plant_id)
                                             & (Measurements.MeasureTime > datetime.now()
                                                .replace(hour=0, minute=0, second=0, microsecond=0)))
@@ -75,8 +75,8 @@ class DataAccess:
             collected_light.append(measurement.Light)
         return collected_light
 
-    def get_dark_hours(self, plant_id):
+    def get_dark_hours(self, plant_id: int) -> Tuple[datetime, datetime]:
         pass
 
-    def get_silent_hours(self, plant_id):
+    def get_silent_hours(self, plant_id: int) -> Tuple[datetime, datetime]:
         pass
