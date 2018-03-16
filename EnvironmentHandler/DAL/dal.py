@@ -1,5 +1,5 @@
 from peewee import *
-from datetime import datetime
+from datetime import datetime, time
 
 db = MySQLDatabase('AdvancedAgriculture', user='root', passwd='admin', host='localhost')
 
@@ -62,21 +62,29 @@ class DataAccess:
         measurement.SoilMoisture = moisture
         measurement.save(force_insert=True)
 
-    def configure(self, mac_address: str):
+    def configure(self, mac_address: str) -> int:
         plant, created = Plants.get_or_create(MACAddress=mac_address)
         return plant.Id
 
-    def get_todays_light_exposure(self, plant_id: int):
+    def get_todays_light_exposure(self, plant_id: int) -> int:
         query = Measurements.select().where((Measurements.PlantId == plant_id)
                                             & (Measurements.MeasureTime > datetime.now()
                                                .replace(hour=0, minute=0, second=0, microsecond=0)))
-        collected_light = []
+        collected_light = 0
         for measurement in query:
-            collected_light.append(measurement.Light)
+            collected_light += measurement.Light
         return collected_light
 
-    def get_dark_hours(self, plant_id: int) -> Tuple[datetime, datetime]:
-        pass
+    def get_dark_hours(self, plant_id: int) -> Tuple[time, time]:
+        plant_settings = Settings.select().where(Settings.PlantId == plant_id)
+        if plant_settings.exists():
+            return plant_settings.DarkHoursStart, plant_settings.DarkHoursEnd
+        return time.replace(hour=0, minute=0, second=0, microsecond=0), \
+            time.replace(hour=0, minute=0, second=0, microsecond=0)
 
-    def get_silent_hours(self, plant_id: int) -> Tuple[datetime, datetime]:
-        pass
+    def get_silent_hours(self, plant_id: int) -> Tuple[time, time]:
+        plant_settings = Settings.select().where(Settings.PlantId == plant_id)
+        if plant_settings.exists():
+            return plant_settings.SilentHoursStart, plant_settings.SilentHoursEnd
+        return time.replace(hour=0, minute=0, second=0, microsecond=0), \
+            time.replace(hour=0, minute=0, second=0, microsecond=0)
