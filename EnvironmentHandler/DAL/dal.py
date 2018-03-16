@@ -66,13 +66,13 @@ class DataAccess:
         plant, created = Plants.get_or_create(MACAddress=mac_address)
         return plant.Id
 
-    def get_todays_light_exposure(self, plant_id: int) -> int:
+    def get_todays_light_exposure(self, plant_id: int) -> list:
         query = Measurements.select().where((Measurements.PlantId == plant_id)
                                             & (Measurements.MeasureTime > datetime.now()
                                                .replace(hour=0, minute=0, second=0, microsecond=0)))
-        collected_light = 0
+        collected_light =[]
         for measurement in query:
-            collected_light += measurement.Light
+            collected_light.append(measurement.Light)
         return collected_light
 
     def get_dark_hours(self, plant_id: int) -> Tuple[time, time]:
