@@ -50,6 +50,24 @@ class Settings(Model):
 db.connect()
 
 
+class PlantData:
+    def __init__(self, moisture_low: int, moisture_high: int, temp_low: float, temp_high: float, humidity_low: int,
+                 humidity_high: int, light_low: int, light_high: int, dark_hours_start: time, dark_hours_end: time,
+                 silent_hours_start: time, silent_hours_end: time):
+        self.moisture_low = moisture_low
+        self.moisture_high = moisture_high
+        self.temp_low = temp_low
+        self.temp_high = temp_high
+        self.humidity_low = humidity_low
+        self.humidity_high = humidity_high
+        self.light_low = light_low
+        self.light_high = light_high
+        self.dark_hours_start = dark_hours_start
+        self.dark_hours_end = dark_hours_end
+        self.silent_hours_start = silent_hours_start
+        self.silent_hours_end = silent_hours_end
+
+
 class DataAccess:
 
     def save_measurement(self, plant_id: int, water: int, temperature: float, humidity: int, light: int, moisture: int):
@@ -63,7 +81,10 @@ class DataAccess:
         measurement.save(force_insert=True)
 
     def configure(self, mac_address: str) -> int:
-        plant, created = Plants.get_or_create(MACAddress=mac_address)
+        plant, created = Plants.get_or_create(MACAddress=mac_address, Name='', SoilMoistureLowTreshold=0,
+                                              SoilMoistureHighTreshold=0, TemperatureLowTreshold=0.0,
+                                              TemperatureHighTreshold=0.0, HumidityLowTreshold=0,
+                                              HumidityHighTreshold=0, LightLowTreshold=0, LightHighTreshold=0)
         return plant.Id
 
     def get_todays_light_exposure(self, plant_id: int) -> list:
@@ -75,16 +96,20 @@ class DataAccess:
             collected_light.append(measurement.Light)
         return collected_light
 
-    def get_dark_hours(self, plant_id: int) -> Tuple[time, time]:
+    def get_plant_data(self, plant_id: int) -> PlantData:
+        plant = Plants.select().where(Plants.Id == plant_id)
         plant_settings = Settings.select().where(Settings.PlantId == plant_id)
-        if plant_settings.exists():
-            return plant_settings.DarkHoursStart, plant_settings.DarkHoursEnd
-        return time.replace(hour=0, minute=0, second=0, microsecond=0), \
-            time.replace(hour=0, minute=0, second=0, microsecond=0)
-
-    def get_silent_hours(self, plant_id: int) -> Tuple[time, time]:
-        plant_settings = Settings.select().where(Settings.PlantId == plant_id)
-        if plant_settings.exists():
-            return plant_settings.SilentHoursStart, plant_settings.SilentHoursEnd
-        return time.replace(hour=0, minute=0, second=0, microsecond=0), \
-            time.replace(hour=0, minute=0, second=0, microsecond=0)
+        if not plant.exists():
+            raise ValueError('No plant found.')
+        if not plant_settings.exist():
+            return PlantData(plant.MoistureLowTreshold, plant.MoistureHighTreshold, plant.TemperatureLowTreshold,
+                             plant.TemperatureHighTreshold, plant.HumidityLowTreshold, plant.HumidityHighTreshold,
+                             plant.LightLowTreshold, plant.LightHighTreshold,
+                             time().replace(hour=0, minute=0, second=0, microsecond=0),
+                             time().replace(hour=0, minute=0, second=0, microsecond=0),
+                             time().replace(hour=0, minute=0, second=0, microsecond=0),
+                             time().replace(hour=0, minute=0, second=0, microsecond=0))
+        return PlantData(plant.MoistureLowTreshold, plant.MoistureHighTreshold, plant.TemperatureLowTreshold,
+                         plant.TemperatureHighTreshold, plant.HumidityLowTreshold, plant.HumidityHighTreshold,
+                         plant.LightLowTreshold, plant.LightHighTreshold, plant_settings.DarkHoursStart,
+                         plant_settings.DarkHoursEnd, plant_settings.SilentHoursStart, plant_settings.SilentHoursEnd)
