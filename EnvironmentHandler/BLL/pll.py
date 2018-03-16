@@ -1,11 +1,13 @@
 from dal import *
 from datetime import datetime, time
+from estimator import Estimator
 
 
 class PlantLogic:
 
     def __init__(self):
         self.data_access = DataAccess()
+        self.estimator = Estimator()
 
     def commit_measurement(
             self, plant_id: int, water: int, temperature: float, humidity: int, light: int, moisture: int)\
@@ -14,6 +16,16 @@ class PlantLogic:
         self.data_access.save_measurement(plant_id, water, temperature, humidity, light_mmol, moisture)
         plant_data = self.data_access.get_plant_data(plant_id)
         collected_light = self.data_access.get_todays_light_exposure(plant_id)
+        light_on = False
+        water_time = 0
+        if plant_data.dark_hours_start > time() > plant_data.dark_hours_end:
+            estimated_total_light = self.estimator.estimate_total_light(collected_light, plant_data.dark_hours_start)
+            if estimated_total_light < plant_data.light_low:
+                light_on = True
+        if plant_data.silent_hours_start > time() > plant_data.silent_hours_end:
+            if moisture < plant_data.moisture_low:
+                water_time = 1
+        return light_on, water_time
 
     def configure(self, mac_address: str) -> int:
         return self.data_access.configure(mac_address)
