@@ -29,7 +29,7 @@ def send_data():
     light = int(request.values['light'])
     moisture = int(request.values['moisture'])
     global hourly_measurements
-    if hourly_measurements[plant_id] is None:
+    if plant_id not in hourly_measurements:
         hourly_measurements[plant_id] = Measurement()
     hourly_measurements[plant_id].water += water
     hourly_measurements[plant_id].temperature += temperature
