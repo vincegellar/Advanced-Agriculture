@@ -77,7 +77,7 @@ class DataAccess:
 
     def save_measurement(self, plant_id: int, water: int, temperature: float, humidity: int, light: int, moisture: int):
         measurement = Measurements()
-        measurement.PlantId = plant_id
+        measurement.Id = plant_id
         measurement.WaterLevel = water
         measurement.Temperature = temperature
         measurement.Humidity = humidity
