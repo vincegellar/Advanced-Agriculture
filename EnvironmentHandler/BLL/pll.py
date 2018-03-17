@@ -1,7 +1,8 @@
-from dal import *
+from dal import DataAccess
 from datetime import time
 from estimator import Estimator
 import numpy as np
+from typing import Tuple
 
 
 class PlantLogic:

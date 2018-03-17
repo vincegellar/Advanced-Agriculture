@@ -20,6 +20,7 @@ class Plants(Model):
 
     class Meta:
         database = db
+        table_name = "Plants"
 
 
 class Measurements(Model):
@@ -34,6 +35,7 @@ class Measurements(Model):
     class Meta:
         database = db
         primary_key = CompositeKey('MeasureTime', 'PlantId')
+        table_name = "Measurements"
 
 
 class Settings(Model):
@@ -46,6 +48,7 @@ class Settings(Model):
     class Meta:
         database = db
         primary_key = CompositeKey('PlantId')
+        table_name = "Settings"
 
 
 db.connect()
