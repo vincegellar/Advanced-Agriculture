@@ -14,6 +14,7 @@ CREATE TABLE Plants (
 	HumidityHighTreshold INT NOT NULL,
 	LightLowTreshold INT NOT NULL,
 	LightHighTreshold INT NOT NULL,
+	PotSize INT DEFAULT 30,
 	PRIMARY KEY (Id),
 	UNIQUE INDEX (MACAddress)
 );
@@ -41,7 +42,6 @@ CREATE TABLE Settings (
 	DarkHoursEnd TIME DEFAULT NULL,
 	SilentHoursStart TIME DEFAULT NULL,
 	SilentHoursEnd TIME DEFAULT NULL,
-	PotSize INT DEFAULT 30,
 	PRIMARY KEY (PlantId),
 	CONSTRAINT PlantId2
 	FOREIGN KEY (PlantId)

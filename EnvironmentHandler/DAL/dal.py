@@ -16,6 +16,7 @@ class Plants(Model):
     HumidityHighTreshold = IntegerField()
     LightLowTreshold = IntegerField()
     LightHighTreshold = IntegerField()
+    PotSize = IntegerField(default=30)
 
     class Meta:
         database = db
@@ -41,7 +42,6 @@ class Settings(Model):
     DarkHoursEnd = TimeField()
     SilentHoursStart = TimeField()
     SilentHoursEnd = TimeField()
-    PotSize = IntegerField(default=30)
 
     class Meta:
         database = db
@@ -110,9 +110,9 @@ class DataAccess:
                              time().replace(hour=0, minute=0, second=0, microsecond=0),
                              time().replace(hour=0, minute=0, second=0, microsecond=0),
                              time().replace(hour=0, minute=0, second=0, microsecond=0),
-                             time().replace(hour=0, minute=0, second=0, microsecond=0))
+                             time().replace(hour=0, minute=0, second=0, microsecond=0), plant.PotSize)
         return PlantData(plant.MoistureLowTreshold, plant.MoistureHighTreshold, plant.TemperatureLowTreshold,
                          plant.TemperatureHighTreshold, plant.HumidityLowTreshold, plant.HumidityHighTreshold,
                          plant.LightLowTreshold, plant.LightHighTreshold, plant_settings.DarkHoursStart,
                          plant_settings.DarkHoursEnd, plant_settings.SilentHoursStart, plant_settings.SilentHoursEnd,
-                         plant_settings.PotSize)
+                         plant.PotSize)
