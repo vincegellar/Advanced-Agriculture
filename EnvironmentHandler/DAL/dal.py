@@ -61,22 +61,26 @@ db.connect()
 
 
 class PlantData:
-    def __init__(self, moisture_low: int, moisture_high: int, temp_low: float, temp_high: float, humidity_low: int,
-                 humidity_high: int, light_low: int, light_high: int, dark_hours_start: time, dark_hours_end: time,
-                 silent_hours_start: time, silent_hours_end: time, pot_size: int):
-        self.moisture_low = moisture_low
-        self.moisture_high = moisture_high
-        self.temp_low = temp_low
-        self.temp_high = temp_high
-        self.humidity_low = humidity_low
-        self.humidity_high = humidity_high
-        self.light_low = light_low
-        self.light_high = light_high
-        self.dark_hours_start = dark_hours_start
-        self.dark_hours_end = dark_hours_end
-        self.silent_hours_start = silent_hours_start
-        self.silent_hours_end = silent_hours_end
-        self.pot_size = pot_size
+    def __init__(self, plant: Plants, settings: Settings=None):
+        self.moisture_low = plant.SoilMoistureLowTreshold
+        self.moisture_high = plant.SoilMoistureHighTreshold
+        self.temp_low = plant.TemperatureLowTreshold
+        self.temp_high = plant.TemperatureHighTreshold
+        self.humidity_low = plant.HumidityLowTreshold
+        self.humidity_high = plant.HumidityHighTreshold
+        self.light_low = plant.LightLowTreshold
+        self.light_high = plant.LightHighTreshold
+        self.pot_size = plant.PotSize
+        if settings is None:
+            self.dark_hours_start = time().replace(hour=0, minute=0, second=0, microsecond=0)
+            self.dark_hours_end = time().replace(hour=0, minute=0, second=0, microsecond=0)
+            self.silent_hours_start = time().replace(hour=0, minute=0, second=0, microsecond=0)
+            self.silent_hours_end = time().replace(hour=0, minute=0, second=0, microsecond=0)
+        else:
+            self.dark_hours_start = settings.DarkHoursStart
+            self.dark_hours_end = settings.DarkHoursEnd
+            self.silent_hours_start = settings.SilentHoursStart
+            self.silent_hours_end = settings.SilentHoursEnd
 
 
 class DataAccess:
@@ -113,15 +117,5 @@ class DataAccess:
         if not plant.exists():
             raise ValueError('No plant found.')
         if not plant_settings.exist():
-            return PlantData(plant.MoistureLowTreshold, plant.MoistureHighTreshold, plant.TemperatureLowTreshold,
-                             plant.TemperatureHighTreshold, plant.HumidityLowTreshold, plant.HumidityHighTreshold,
-                             plant.LightLowTreshold, plant.LightHighTreshold,
-                             time().replace(hour=0, minute=0, second=0, microsecond=0),
-                             time().replace(hour=0, minute=0, second=0, microsecond=0),
-                             time().replace(hour=0, minute=0, second=0, microsecond=0),
-                             time().replace(hour=0, minute=0, second=0, microsecond=0), plant.PotSize)
-        return PlantData(plant.MoistureLowTreshold, plant.MoistureHighTreshold, plant.TemperatureLowTreshold,
-                         plant.TemperatureHighTreshold, plant.HumidityLowTreshold, plant.HumidityHighTreshold,
-                         plant.LightLowTreshold, plant.LightHighTreshold, plant_settings.DarkHoursStart,
-                         plant_settings.DarkHoursEnd, plant_settings.SilentHoursStart, plant_settings.SilentHoursEnd,
-                         plant.PotSize)
+            return PlantData(plant)
+        return PlantData(plant, plant_settings)
