@@ -13,7 +13,7 @@ Use a Raspberry PI to monitor, and care for your plants. Connect the sensors dir
 
 ## Hardware:
 - Raspberry PI 3 Model B / Raspberry PI Zero W
-- NodeMCU ESP8266
+- NodeMCU ESP8266 / ESP32
 
 ### Sensors:
 - Temperature & Humidity: DHT11
