@@ -1,3 +1,4 @@
+from DAL import dal
 from dal import DataAccess
 from datetime import time
 from estimator import Estimator
