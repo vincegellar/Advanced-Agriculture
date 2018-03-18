@@ -1,7 +1,13 @@
 from peewee import *
 from datetime import datetime, time
+import configparser
 
-db = MySQLDatabase('AdvancedAgriculture', user='root', passwd='admin', host='localhost')
+config = configparser.RawConfigParser()
+config.read('config/config.cfg')
+user_name = config.get('Database', 'user')
+password = config.get('Database', 'password')
+
+db = MySQLDatabase('AdvancedAgriculture', user=user_name, passwd=password, host='localhost')
 
 
 class Plants(Model):
