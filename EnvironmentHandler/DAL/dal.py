@@ -31,7 +31,7 @@ class Plants(Model):
 
 class Measurements(Model):
     MeasureTime = DateTimeField()
-    PlantId = ForeignKeyField(Plants, field='Id', on_delete='Cascade', on_update='Cascade')
+    Plant = ForeignKeyField(Plants, field='Id', on_delete='Cascade', on_update='Cascade', column_name='PlantId')
     SoilMoisture = IntegerField()
     Temperature = FloatField()
     Humidity = IntegerField()
@@ -40,12 +40,12 @@ class Measurements(Model):
 
     class Meta:
         database = db
-        primary_key = CompositeKey('MeasureTime', 'PlantId')
+        primary_key = CompositeKey('MeasureTime', 'Plant')
         table_name = "Measurements"
 
 
 class Settings(Model):
-    PlantId = ForeignKeyField(Plants, field='Id', on_delete='Cascade', on_update='Cascade')
+    Plant = ForeignKeyField(Plants, field='Id', on_delete='Cascade', on_update='Cascade', column_name='PlantId')
     DarkHoursStart = TimeField()
     DarkHoursEnd = TimeField()
     SilentHoursStart = TimeField()
@@ -53,7 +53,7 @@ class Settings(Model):
 
     class Meta:
         database = db
-        primary_key = CompositeKey('PlantId')
+        primary_key = CompositeKey('Plant')
         table_name = "Settings"
 
 
@@ -87,7 +87,8 @@ class DataAccess:
 
     def save_measurement(self, plant_id: int, water: int, temperature: float, humidity: int, light: int, moisture: int):
         measurement = Measurements()
-        measurement.PlantId = plant_id
+        measurement.MeasureTime = datetime.now()
+        measurement.Plant = plant_id
         measurement.WaterLevel = water
         measurement.Temperature = temperature
         measurement.Humidity = humidity
@@ -103,19 +104,19 @@ class DataAccess:
         return plant.Id
 
     def get_todays_light_exposure(self, plant_id: int) -> list:
-        query = Measurements.select().where((Measurements.PlantId == plant_id)
+        query = Measurements.select().where((Measurements.Plant == plant_id)
                                             & (Measurements.MeasureTime > datetime.now()
                                                .replace(hour=0, minute=0, second=0, microsecond=0)))
-        collected_light =[]
+        collected_light = []
         for measurement in query:
             collected_light.append(measurement.Light)
         return collected_light
 
     def get_plant_data(self, plant_id: int) -> PlantData:
         plant = Plants.select().where(Plants.Id == plant_id)
-        plant_settings = Settings.select().where(Settings.PlantId == plant_id)
+        plant_settings = Settings.select().where(Settings.Plant == plant_id)
         if not plant.exists():
             raise ValueError('No plant found.')
-        if not plant_settings.exist():
-            return PlantData(plant)
-        return PlantData(plant, plant_settings)
+        if not plant_settings.exists():
+            return PlantData(plant[0])
+        return PlantData(plant[0], plant_settings[0])
