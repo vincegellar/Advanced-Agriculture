@@ -1,9 +1,10 @@
 from peewee import *
 from datetime import datetime, time
 import configparser
+from os import path
 
 config = configparser.RawConfigParser()
-config.read('config/config.cfg')
+config.read(path.join(path.dirname(__file__), '../EnvironmentHandler.cfg'))
 user_name = config.get('Database', 'user')
 password = config.get('Database', 'password')
 
