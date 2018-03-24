@@ -25,6 +25,13 @@ Use a Raspberry PI to monitor, and care for your plants. Connect the sensors dir
 - 12V Submersible Pump
 - Full Spectrum 10W Pink LED
 
+## How to install?
+1. Download the code.
+2. Set your PYTHONPATH environment variable:
+    ```
+    PYTHONPATH=BLL:DAL python3.6 EnvironmentHandler.py
+    ```
+
 ## License:
 
 Advanced Agriculture: A plant automation IoT system.

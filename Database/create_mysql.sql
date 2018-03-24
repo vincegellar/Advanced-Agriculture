@@ -14,6 +14,7 @@ CREATE TABLE Plants (
 	HumidityHighTreshold INT NOT NULL,
 	LightLowTreshold INT NOT NULL,
 	LightHighTreshold INT NOT NULL,
+	PotSize INT DEFAULT 30,
 	PRIMARY KEY (Id),
 	UNIQUE INDEX (MACAddress)
 );
