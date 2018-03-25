@@ -4,7 +4,7 @@ import threading
 import configparser
 from os import path
 
-PORT = 50000
+PORT = 44460
 IDENTIFIER = 'advanced_agriculture:'
 
 config = configparser.RawConfigParser()
