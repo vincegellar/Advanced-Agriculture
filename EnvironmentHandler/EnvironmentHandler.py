@@ -1,7 +1,8 @@
 from flask import Flask, request, jsonify
 from datetime import datetime
-from BLL import pll
+from BLL import pll, announcer
 from pll import PlantLogic
+from announcer import Announcer
 
 app = Flask(__name__)
 
@@ -61,6 +62,8 @@ def configure():
     response = {'plant_id': plant_id}
     return jsonify(response)
 
+
+announcer_thread = Announcer()
 
 if __name__ == '__main__':
     app.run()
