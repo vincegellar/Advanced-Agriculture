@@ -1,0 +1,8 @@
+{
+  "en-US":{
+    "low-water-level": {
+      "subject": "Water Level Low On Plant %id",
+      "body": "Dear %user! \n\nThe water level in the tank of your %name plant is low. \nDetails: \nName: %name \nId: %id \nAddress: %macAddress \n\nYour Advanced Agriculture Server"
+    }
+  }
+}
