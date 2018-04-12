@@ -25,6 +25,5 @@ class Announcer(object):
 
     def run(self):
         while True:
-            data = IDENTIFIER
-            self.socket.sendto(data.encode('utf-8'), ('<broadcast>', PORT))
+            self.socket.sendto(IDENTIFIER.encode('utf-8'), ('<broadcast>', PORT))
             sleep(self.interval)
