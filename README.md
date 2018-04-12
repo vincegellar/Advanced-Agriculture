@@ -1,7 +1,7 @@
 # Advanced Agriculture
 
 ## What is this all about?
-Use a Raspberry PI to monitor, and care for your plants. Connect the sensors directly to your PI, or use some NodeMCUs to connect many plants to one Raspberry. 
+Use a Raspberry PI to monitor, and care for your plants. Connect the sensors to NodeMCUs to connect many plants to one Raspberry. 
 
 ## Features:
 - Automated Watering
