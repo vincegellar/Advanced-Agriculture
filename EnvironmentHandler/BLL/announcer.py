@@ -1,11 +1,11 @@
 from time import sleep
-from socket import socket, AF_INET, SOCK_DGRAM, SOL_SOCKET, SO_BROADCAST, gethostbyname, gethostname
+from socket import socket, AF_INET, SOCK_DGRAM, SOL_SOCKET, SO_BROADCAST
 import threading
 import configparser
 from os import path
 
 PORT = 44460
-IDENTIFIER = 'advanced_agriculture:'
+IDENTIFIER = 'advanced_agriculture'
 
 config = configparser.RawConfigParser()
 config.read(path.join(path.dirname(__file__), '../EnvironmentHandler.cfg'))
@@ -19,13 +19,11 @@ class Announcer(object):
         self.socket = socket(AF_INET, SOCK_DGRAM)
         self.socket.bind(('', 0))
         self.socket.setsockopt(SOL_SOCKET, SO_BROADCAST, 1)
-        self.ip = gethostbyname(gethostname())
         thread = threading.Thread(target=self.run, args=())
         thread.daemon = True
         thread.start()
 
     def run(self):
         while True:
-            data = IDENTIFIER + self.ip
-            self.socket.sendto(data.encode('utf-8'), ('<broadcast>', PORT))
+            self.socket.sendto(IDENTIFIER.encode('utf-8'), ('<broadcast>', PORT))
             sleep(self.interval)
