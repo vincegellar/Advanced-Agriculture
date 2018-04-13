@@ -5,7 +5,7 @@ import configparser
 from os import path
 
 PORT = 44460
-IDENTIFIER = 'advanced_agriculture:'
+IDENTIFIER = 'advanced_agriculture'
 
 config = configparser.RawConfigParser()
 config.read(path.join(path.dirname(__file__), '../EnvironmentHandler.cfg'))
