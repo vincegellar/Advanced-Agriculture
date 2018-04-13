@@ -16,10 +16,10 @@
 #define PIN_PUMP D5
 #define PIN_LIGHT D6
 
-#define WATER_0 20
+#define WATER_0 200
 #define WATER_100 500
-#define SOIL_0 900
-#define SOIL_100 400
+#define SOIL_0 700
+#define SOIL_100 200
 
 #define ANNOUNCE_PORT 44460
 #define CONTROLLER_PORT 5000
