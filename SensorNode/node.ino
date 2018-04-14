@@ -22,7 +22,7 @@
 #define SOIL_100 200
 
 #define ANNOUNCE_PORT 44460
-#define CONTROLLER_PORT 5000
+#define CONTROLLER_PORT 8080
 
 typedef struct Measurement {
   uint16_t light;
