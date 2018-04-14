@@ -39,9 +39,9 @@ def send_data():
     hourly_measurements[plant_id].light += light
     hourly_measurements[plant_id].moisture += moisture
     hourly_measurements[plant_id].measurement_count += 1
-    elapsed_measurement_time = hourly_measurements[plant_id].start.hour - datetime.now().hour
+    elapsed_measurement_time = hourly_measurements[plant_id].start - datetime.now()
     actuator_response = {'light_on': False, 'water_time': 0}
-    if elapsed_measurement_time >= 1:
+    if elapsed_measurement_time.seconds >= 3600:
         measurement_count = hourly_measurements[plant_id].measurement_count
         average_water = int(round(hourly_measurements[plant_id].water / measurement_count))
         average_temp = hourly_measurements[plant_id].temperature / measurement_count
@@ -52,6 +52,7 @@ def send_data():
         light_on, water_time = logic_layer.commit_measurement(plant_id, average_water, average_temp, average_humidity,
                                                               average_light, average_moisture)
         actuator_response = {'light_on': light_on, 'water_time': water_time}
+        hourly_measurements[plant_id] = Measurement()
     return jsonify(actuator_response)
 
 
