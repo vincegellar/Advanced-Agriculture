@@ -1,8 +1,7 @@
 from flask import Flask, request, jsonify
 from datetime import datetime
-from werkzeug.serving import run_simple
-from BLL import pll, announcer
-from pll import PlantLogic
+from BLL.announcer import Announcer
+from BLL.pll import PlantLogic
 
 app = Flask(__name__)
 
@@ -64,10 +63,7 @@ def configure():
     return jsonify(response)
 
 
-@app.route('/', methods=['GET'])
-def get1():
-    return "Hello flask 1"
-
+announcer_thread = Announcer()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)
