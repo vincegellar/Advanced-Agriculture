@@ -3,7 +3,7 @@
 **_Warning: The project is still in early development, so expect some features and documentation to be missing, or not work correctly._**
 
 ## What is this all about?
-Use a Raspberry PI to monitor, and care for your plants. Connect the sensors to NodeMCUs to connect many plants to one Raspberry. 
+Use a Raspberry PI to monitor, and care for your plants. Connect the sensors to NodeMCUs to connect many plants to one Raspberry.
 
 ## Features:
 - Automated Watering
@@ -28,11 +28,10 @@ Use a Raspberry PI to monitor, and care for your plants. Connect the sensors to 
 - Full Spectrum 10W Pink LED
 
 ## How to install?
-1. Download the code.
-2. Set your PYTHONPATH environment variable:
-    ```
-    PYTHONPATH=BLL:DAL python3.6 EnvironmentHandler.py
-    ```
+Run the following on the Raspberry PI:
+```bash
+curl -s https://raw.githubusercontent.com/vincegellar/Advanced-Agriculture/master/install.sh | bash
+```
 
 ## License:
 

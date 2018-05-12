@@ -1,8 +1,7 @@
 DROP DATABASE IF EXISTS AdvancedAgriculture;
 CREATE DATABASE AdvancedAgriculture;
-USE AdvancedAgriculture;
 
-CREATE TABLE Plants (
+CREATE TABLE AdvancedAgriculture.Plants (
 	Id INT NOT NULL AUTO_INCREMENT,
 	MACAddress CHAR(12) NOT NULL,
 	Name VARCHAR(255) NOT NULL,
@@ -19,7 +18,7 @@ CREATE TABLE Plants (
 	UNIQUE INDEX (MACAddress)
 );
 
-CREATE TABLE Measurements (
+CREATE TABLE AdvancedAgriculture.Measurements (
 	MeasureTime DATETIME NOT NULL,
 	PlantId INT NOT NULL,
 	SoilMoisture INT NOT NULL,
@@ -35,7 +34,7 @@ CREATE TABLE Measurements (
 	ON UPDATE CASCADE
 );
 
-CREATE TABLE Settings (
+CREATE TABLE AdvancedAgriculture.Settings (
 	PlantId INT NOT NULL,
 	Email VARCHAR(255) NOT NULL,
 	DarkHoursStart TIME DEFAULT NULL,
@@ -49,3 +48,8 @@ CREATE TABLE Settings (
 	ON DELETE CASCADE
 	ON UPDATE CASCADE
 );
+
+DROP USER IF EXISTS 'advanced-agriculture'@'localhost';
+CREATE USER 'advanced-agriculture'@'localhost' IDENTIFIED BY 'advanced-agriculture';
+GRANT ALL ON AdvancedAgriculture.* TO 'advanced-agriculture'@'localhost';
+FLUSH PRIVILEGES;
