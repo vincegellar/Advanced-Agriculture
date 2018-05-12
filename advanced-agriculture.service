@@ -1,0 +1,14 @@
+[Unit]
+Description=Advanced Agriculture Controller
+After=network.target nginx mysql
+
+[Service]
+Environment=PYTHONPATH=/home/pi/app/EnvironmentHandler/BLL:/home/pi/app/EnvironmentHandler/DAL
+ExecStart=/usr/bin/python3 /home/pi/app/EnvironmentHandler/EnvironmentHandler.py
+Type=simple
+PIDFile=/run/advanced-agriculture.pid
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target
