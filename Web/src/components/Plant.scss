@@ -1,0 +1,27 @@
+.plant {
+  display: grid;
+  grid-template-columns: auto 3em;
+  padding: 0.125em;
+  font-size: 2em;
+  background-color: rgba(0, 0, 0, 0.1);
+  width: 14.5em;
+
+  .name, .controls {
+    padding: 0.25em 0;
+  }
+
+  .controls {
+    justify-self: center;
+  }
+
+  .sensors {
+    grid-column: 1 / span 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0.125em;
+
+    .sensor {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+  }
+}
