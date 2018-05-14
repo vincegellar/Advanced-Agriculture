@@ -121,3 +121,18 @@ class DataAccess:
         if not plant_settings.exists():
             return PlantData(plant[0])
         return PlantData(plant[0], plant_settings[0])
+
+    def get_plants(self):
+        pass
+
+    def get_current(self):
+        pass
+
+    def get_history(self):
+        pass
+
+    def get_settings(self):
+        pass
+
+    def post_settings(self):
+        pass

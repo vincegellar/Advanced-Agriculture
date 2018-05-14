@@ -1,6 +1,5 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify
 from datetime import datetime
-from os import path
 from BLL.announcer import Announcer
 from BLL.pll import PlantLogic
 
@@ -66,27 +65,32 @@ def configure():
 
 @app.route('/web-ui/plants', methods=['GET'])
 def get_plants():
-    pass
+    response = logic_layer.get_plants()
+    return jsonify(response)
 
 
 @app.route('/web-ui/current', methods=['GET'])
 def get_current():
-    pass
+    response = logic_layer.get_current()
+    return jsonify(response)
 
 
 @app.route('/web-ui/history', methods=['GET'])
 def get_history():
-    pass
+    response = logic_layer.get_history()
+    return jsonify(response)
 
 
 @app.route('/web-ui/settings', methods=['GET'])
 def get_settings():
-    pass
+    response = logic_layer.get_settings()
+    return jsonify(response)
 
 
 @app.route('/web-ui/settings', methods=['POST'])
 def post_settings():
-    pass
+    response = logic_layer.post_settings()
+    return jsonify(response)
 
 
 announcer_thread = Announcer()

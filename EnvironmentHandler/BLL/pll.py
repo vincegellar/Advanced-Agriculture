@@ -32,3 +32,18 @@ class PlantLogic:
 
     def configure(self, mac_address: str) -> int:
         return self.data_access.configure(mac_address)
+
+    def get_plants(self):
+        return self.data_access.get_plants()
+
+    def get_current(self):
+        return self.data_access.get_current()
+
+    def get_history(self):
+        return self.data_access.get_history()
+
+    def get_settings(self):
+        return self.data_access.get_settings()
+
+    def post_settings(self):
+        return self.post_settings()
