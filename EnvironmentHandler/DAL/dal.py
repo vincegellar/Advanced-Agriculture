@@ -194,5 +194,30 @@ class DataAccess:
                           'silent_hours_end': settings.SilentHoursEnd}
         return result
 
-    def post_settings(self):
-        pass
+    def post_settings(self, plant_id: int, new_settings: dict):
+        plant = Plants.select().where(Plants.Id == plant_id)
+        settings_old = Settings.select().where(Settings.Plant == plant_id)
+        settings_values = {k: v for k, v in new_settings.items() if v is not None}
+        if not plant.exists():
+            raise ValueError('No plant found.')
+        plant.SoilMoistureLowTreshold = settings_values.get('soil_moisture_low', plant.SoilMoistureLowTreshold)
+        plant.SoilMoistureLowTreshold = settings_values.get('soil_moisture_high', plant.SoilMoistureHighTreshold)
+        plant.TemperatureLowTreshold = settings_values.get('temp_low', plant.TemperatureLowTreshold)
+        plant.TemperatureHighTreshold = settings_values.get('temp_high', plant.TemperatureHighTreshold)
+        plant.HumidityLowTreshold = settings_values.get('humidity_low', plant.HumidityLowTreshold)
+        plant.HumidityHighTreshold = settings_values.get('humidity_high', plant.HumidityHighTreshold)
+        plant.LightLowTreshold = settings_values.get('light_low', plant.LightLowTreshold)
+        plant.LightHighTreshold = settings_values.get('light_high', plant.LightHighTreshold)
+        plant.PotSize = settings_values.get('pot_size', plant.PotSize)
+        if not settings_old.exists():
+            created = Settings()
+            created.Plant = plant
+            created.DarkHoursStart = settings_values.get('dark_hours_start')
+            created.DarkHoursEnd = settings_values.get('dark_hours_end')
+            created.SilentHoursStart = settings_values.get('silent_hours_start')
+            created.SilentHoursEnd = settings_values.get('silent_hours_end')
+        else:
+            settings_old.DarkHoursStart = settings_values.get('dark_hours_start', settings_old.DarkHoursStart)
+            settings_old.DarkHoursEnd = settings_values.get('dark_hours_end', settings_old.DarkHoursEnd)
+            settings_old.SilentHoursStart = settings_values.get('silent_hours_start', settings_old.SilentHoursStart)
+            settings_old.SilentHoursEnd = settings_values.get('silent_hours_end', settings_old.SilentHoursEnd)

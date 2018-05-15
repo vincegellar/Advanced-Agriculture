@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from datetime import datetime
+from datetime import datetime, time
 from BLL.announcer import Announcer
 from BLL.pll import PlantLogic
 
@@ -110,7 +110,22 @@ def get_settings():
 
 @app.route('/web-ui/settings', methods=['POST'])
 def post_settings():
-    response = logic_layer.post_settings()
+    plant_id = int(request.values['id'])
+    data = request.get_json()
+    new_settings = result = {'soil_moisture_low': int(data.get('soil_moisture_low', None)),
+                             'soil_moisture_high': int(data.get('soil_moisture_high', None)),
+                             'temp_low': float(data.get('temp_low', None)),
+                             'temp_high': float(data.get('temp_high', None)),
+                             'humidity_low': int(data.get('humidity_low', None)),
+                             'humidity_high': int(data.get('humidity_high', None)),
+                             'light_low': int(data.get('light_low', None)),
+                             'light_high': int(data.get('light_high', None)),
+                             'pot_size': int(data.get('pot_size', None)),
+                             'dark_hours_start': time(data.get('dark_hours_start', None)),
+                             'dark_hours_end': time(data.get('dark_hours_end', None)),
+                             'silent_hours_start': time(data.get('silent_hours_start', None)),
+                             'silent_hours_end': time(data.get('silent_hours_end', None))}
+    response = logic_layer.post_settings(plant_id, new_settings)
     return jsonify(response)
 
 

@@ -42,5 +42,5 @@ class PlantLogic:
     def get_settings(self, plant_id: int):
         return self.data_access.get_settings(plant_id)
 
-    def post_settings(self):
-        return self.post_settings()
+    def post_settings(self, plant_id: int, new_settings: dict):
+        return self.post_settings(plant_id, new_settings)
