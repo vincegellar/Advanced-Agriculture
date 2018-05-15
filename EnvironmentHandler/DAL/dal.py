@@ -155,7 +155,20 @@ class DataAccess:
         return result
 
     def get_history(self):
-        pass
+        plants = Plants.select()
+        measurements = Measurements.select().where(Measurements.MeasureTime > datetime.now() - timedelta(days=1))
+        result = {}
+        for plant in plants:
+            result[plant.Id] = {}
+            plant_measurements = measurements.where(Settings.Plant == plant)
+            if measurements.exists() and plant_measurements.exists():
+                for measurement in plant_measurements:
+                    result[plant.Id][measurement.MeasureTime] = {
+                        'soil_moisture': measurement.SoilMoisture,
+                        'temp': measurement.Temperature,
+                        'humidity': measurement.Humidity,
+                        'light': measurement.Light,
+                        'water_level': measurement.WaterLevel}
 
     def get_settings(self):
         pass
