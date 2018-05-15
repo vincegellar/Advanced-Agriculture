@@ -1,13 +1,13 @@
-export const PLANT_INIT = 'PLANT_INIT';
-export const PLANT_SENSORS_REFRESH = 'PLANT_SENSORS_REFRESH';
+export const INIT_PLANT = 'INIT_PLANT';
+export const REFRESH_PLANT_MEASUREMENT = 'REFRESH_PLANT_MEASUREMENT';
 
-export const plantInit = plant => ({
-  type: PLANT_INIT,
+export const initPlant = plant => ({
+  type: INIT_PLANT,
   plant
 });
 
-export const plantSensorsRefresh = (id, sensors) => ({
-  type: PLANT_SENSORS_REFRESH,
+export const refreshPlantMeasurement = (id, measurement) => ({
+  type: REFRESH_PLANT_MEASUREMENT,
   id,
-  sensors
+  measurement
 });

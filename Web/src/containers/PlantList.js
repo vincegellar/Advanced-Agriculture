@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import PlantListComponent from '../components/PlantList';
 
 const mapStateToProps = (state) => {
-  return {plants: state.plants};
+  return {plants: Object.keys(state.plants)};
 };
 
 const mapDispatchToProps = () => {

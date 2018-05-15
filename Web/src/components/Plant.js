@@ -14,17 +14,17 @@ class Plant extends Component {
     return (
         <div className="plant">
           <div className="name">
-            <Icon name="flower"/> {this.props.info.name}
+            <Icon name="flower"/> {this.props.name}
           </div>
           <div className="controls">
             <a href="/"><Icon name="information"/></a>
             <a href="/"><Icon name="settings"/></a>
           </div>
           <div className="sensors">
-            <SoilMoistureSensor value={this.props.sensors.soilMoisture}/>
-            <LightIntensitySensor value={this.props.sensors.lightIntensity}/>
-            <WaterLevelSensor value={this.props.sensors.waterLevel}/>
-            <TemperatureSensor value={this.props.sensors.temperature}/>
+            <SoilMoistureSensor value={this.props.current_measurement.soil_moisture}/>
+            <LightIntensitySensor value={this.props.current_measurement.light}/>
+            <WaterLevelSensor value={this.props.current_measurement.water_level}/>
+            <TemperatureSensor value={this.props.current_measurement.temp}/>
           </div>
         </div>
     );
@@ -32,16 +32,16 @@ class Plant extends Component {
 }
 
 Plant.propTypes = {
-  info: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string,
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  current_measurement: PropTypes.shape({
+    soil_moisture: PropTypes.number,
+    light: PropTypes.number,
+    water_level: PropTypes.number,
+    temp: PropTypes.number,
   }).isRequired,
-  sensors: PropTypes.shape({
-    soilMoisture: PropTypes.number,
-    lightIntensity: PropTypes.number,
-    waterLevel: PropTypes.number,
-    temperature: PropTypes.number,
-  }).isRequired
+  measurements: PropTypes.shape().isRequired,
+  settings: PropTypes.shape().isRequired,
 };
 
 export default Plant;

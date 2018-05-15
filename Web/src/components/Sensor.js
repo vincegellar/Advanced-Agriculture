@@ -11,7 +11,7 @@ class Sensor extends Component {
         <div className="sensor">
           <Icon name={this.iconName}/>
           <span>
-            {[this.props.value || '?', this.unit].join(' ')}
+            {[this.props.value, this.unit].join(' ')}
           </span>
         </div>
     );

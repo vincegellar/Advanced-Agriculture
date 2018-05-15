@@ -2,15 +2,17 @@ import * as ActionTypes from '../actions';
 
 const plants = (state = {}, action) => {
   switch (action.type) {
-    case ActionTypes.PLANT_INIT:
+    case ActionTypes.INIT_PLANT:
       return Object.assign({}, state, {
-        [action.plant.id]: {info: action.plant, sensors: {}}
+        [action.plant.id]: action.plant
       });
 
-    case ActionTypes.PLANT_SENSORS_REFRESH:
+    case ActionTypes.REFRESH_PLANT_MEASUREMENT:
       if (typeof(state[action.id]) === 'undefined') return state;
       return Object.assign({}, state, {
-        [action.id]: Object.assign({}, state[action.id], {sensors: action.sensors})
+        [action.id]: Object.assign({}, state[action.id], {
+          current_measurement: action.measurement
+        })
       });
 
     default:

@@ -8,7 +8,7 @@ class PlantList extends Component {
     return (
         <div className="plant-list">
           {
-            Object.keys(plants).map((id) => (<Plant key={id} {...plants[id]}/>))
+            plants.map((id) => (<Plant key={id} id={id}/>))
           }
         </div>
     );

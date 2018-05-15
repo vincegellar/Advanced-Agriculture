@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import PlantComponent from '../components/Plant';
 
 const mapStateToProps = (state, ownProps) => {
-  return state.plants[ownProps.info.id];
+  return state.plants[ownProps.id];
 };
 
 const mapDispatchToProps = () => {

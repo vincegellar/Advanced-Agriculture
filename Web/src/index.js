@@ -10,20 +10,26 @@ import * as Actions from './actions';
 import PlantAPI from './api/PlantAPI';
 
 const store = createStore(rootReducer);
+const refreshPlants = function() {
+  PlantAPI.getPlants().then((plants) => {
+    Object.keys(plants).map((id) => {
+      const action = Actions.initPlant(plants[id]);
+      store.dispatch(action);
+    });
+  });
+};
+const refreshMeasurements = function() {
+  PlantAPI.getCurrentMeasurements().then((measurements) => {
+    Object.keys(measurements).map((id) => {
+      const action = Actions.refreshPlantMeasurement(id, measurements[id]);
+      store.dispatch(action);
+    });
+  });
+};
 
-setInterval(() => {
-  const loadedPlants = Object.keys(store.getState().plants);
-  PlantAPI.getPlants().forEach(function(plant) {
-    if (loadedPlants.indexOf(plant.id.toString()) === -1) {
-      store.dispatch(Actions.plantInit(plant));
-      loadedPlants.push(plant.id.toString());
-    }
-  });
-  loadedPlants.forEach(function(id) {
-    const sensors = PlantAPI.getPlantSensors(id);
-    store.dispatch(Actions.plantSensorsRefresh(id, sensors));
-  });
-}, 1000);
+refreshPlants();
+setInterval(refreshMeasurements, 1000);
+setInterval(refreshPlants, 60000);
 
 ReactDOM.render(
     <Provider store={store}>
