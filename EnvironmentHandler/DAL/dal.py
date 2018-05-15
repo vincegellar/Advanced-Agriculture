@@ -129,7 +129,7 @@ class DataAccess:
         result = {}
         for plant in plants:
             plant_settings = settings.where(Settings.Plant == plant)
-            plant_measurements = measurements.where(Settings.Plant == plant)
+            plant_measurements = measurements.where(Measurements.Plant == plant)
             result[plant.Id] = {'id': plant.Id, 'name': plant.Name}
             result[plant.Id]['settings'] = {}
             result[plant.Id]['measurements'] = {}
