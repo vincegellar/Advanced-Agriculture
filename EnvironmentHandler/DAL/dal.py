@@ -173,8 +173,26 @@ class DataAccess:
                         'light': measurement.Light,
                         'water_level': measurement.WaterLevel}
 
-    def get_settings(self):
-        pass
+    def get_settings(self, plant_id: int):
+        plant = Plants.select().where(Plants.Id == plant_id)
+        result = {}
+        if plant.exists():
+            settings = Settings.select().where(Settings.Plant == plant)
+            if settings.exists():
+                result = {'soil_moisture_low': plant.SoilMoistureLowTreshold,
+                          'soil_moisture_high': plant.SoilMoistureLowTreshold,
+                          'temp_low': plant.TemperatureLowTreshold,
+                          'temp_high': plant.TemperatureHighTreshold,
+                          'humidity_low': plant.HumidityLowTreshold,
+                          'humidity_high': plant.HumidityHighTreshold,
+                          'light_low': plant.LightLowTreshold,
+                          'light_high': plant.LightHighTreshold,
+                          'pot_size': plant.PotSize,
+                          'dark_hours_start': settings.DarkHoursStart,
+                          'dark_hours_end': settings.DarkHoursEnd,
+                          'silent_hours_start': settings.SilentHoursStart,
+                          'silent_hours_end': settings.SilentHoursEnd}
+        return result
 
     def post_settings(self):
         pass

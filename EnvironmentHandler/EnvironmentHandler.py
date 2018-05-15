@@ -103,7 +103,8 @@ def get_history():
 
 @app.route('/web-ui/settings', methods=['GET'])
 def get_settings():
-    response = logic_layer.get_settings()
+    plant_id = int(request.values['id'])
+    response = logic_layer.get_settings(plant_id)
     return jsonify(response)
 
 

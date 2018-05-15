@@ -39,8 +39,8 @@ class PlantLogic:
     def get_history(self):
         return self.data_access.get_history()
 
-    def get_settings(self):
-        return self.data_access.get_settings()
+    def get_settings(self, plant_id: int):
+        return self.data_access.get_settings(plant_id)
 
     def post_settings(self):
         return self.post_settings()
