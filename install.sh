@@ -37,11 +37,12 @@ sudo systemctl enable advanced-agriculture
 sudo service advanced-agriculture start
 
 # Build and start Web
-cd $APP_DIR/Web
-yarn
-yarn build
-rm -rf /var/www/html
-cp -R build /var/www/html
+#cd $APP_DIR/Web
+#yarn
+#yarn build
+sudo rm -rf /var/www/html
+cp -R $APP_DIR/Web/build /var/www/html
+sudo chown -R pi:www-data /var/www/html
 sudo ln -s $APP_DIR/nginx.conf /etc/nginx/sites-enabled/advanced-agriculture
 sudo rm /etc/nginx/sites-enabled/default
 sudo service nginx start
