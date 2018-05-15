@@ -46,7 +46,7 @@ def send_data():
     last_measurement[plant_id].humidity = humidity
     last_measurement[plant_id].light = light
     last_measurement[plant_id].moisture = moisture
-    elapsed_measurement_time = hourly_measurements[plant_id].start - datetime.now()
+    elapsed_measurement_time = datetime.now() - hourly_measurements[plant_id].start
     actuator_response = {'light_on': False, 'water_time': 0}
     if elapsed_measurement_time.seconds >= 3600:
         measurement_count = hourly_measurements[plant_id].measurement_count
