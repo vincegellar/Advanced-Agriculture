@@ -36,9 +36,6 @@ class PlantLogic:
     def get_plants(self):
         return self.data_access.get_plants()
 
-    def get_current(self):
-        return self.data_access.get_current()
-
     def get_history(self):
         return self.data_access.get_history()
 

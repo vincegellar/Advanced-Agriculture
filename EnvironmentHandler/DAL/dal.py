@@ -154,9 +154,6 @@ class DataAccess:
                         'water_level': measurement.WaterLevel}
         return result
 
-    def get_current(self):
-        pass
-
     def get_history(self):
         pass
 

@@ -85,7 +85,13 @@ def get_plants():
 
 @app.route('/web-ui/current', methods=['GET'])
 def get_current():
-    response = logic_layer.get_current()
+    response = {}
+    for plant_id, measurement in last_measurement.items():
+        response[plant_id]['current_measurement'] = {'water_level': measurement.water,
+                                                     'temp': measurement.temperature,
+                                                     'humidity': measurement.humidity,
+                                                     'light': measurement.light,
+                                                     'soil_moisture': measurement.moisture}
     return jsonify(response)
 
 
