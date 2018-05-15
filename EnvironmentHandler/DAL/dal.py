@@ -149,12 +149,13 @@ class DataAccess:
                                                 'silent_hours_end': settings.SilentHoursEnd}
             if measurements.exists() and plant_measurements.exists():
                 for measurement in plant_measurements:
-                    result[plant.Id][measurements][measurement.MeasureTime] = {
+                    result[plant.Id]['measurements'][measurement.MeasureTime.isoformat()] = {
                         'soil_moisture': measurement.SoilMoisture,
                         'temp': measurement.Temperature,
                         'humidity': measurement.Humidity,
                         'light': measurement.Light,
-                        'water_level': measurement.WaterLevel}
+                        'water_level': measurement.WaterLevel
+                    }
         return result
 
     def get_history(self):
@@ -166,12 +167,13 @@ class DataAccess:
             plant_measurements = measurements.where(Settings.Plant == plant)
             if measurements.exists() and plant_measurements.exists():
                 for measurement in plant_measurements:
-                    result[plant.Id][measurement.MeasureTime] = {
+                    result[plant.Id][measurement.MeasureTime.isoformat()] = {
                         'soil_moisture': measurement.SoilMoisture,
                         'temp': measurement.Temperature,
                         'humidity': measurement.Humidity,
                         'light': measurement.Light,
-                        'water_level': measurement.WaterLevel}
+                        'water_level': measurement.WaterLevel
+                    }
 
     def get_settings(self, plant_id: int):
         plant = Plants.select().where(Plants.Id == plant_id)
