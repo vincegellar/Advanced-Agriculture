@@ -22,6 +22,7 @@ sudo apt update
 sudo apt upgrade -y
 sudo apt update
 sudo apt install -y git libatlas-base-dev mysql-server nginx-light nodejs python3 python3-pip yarn
+sudo service nginx stop
 sudo pip3 install --upgrade pip
 sudo pip3 install --upgrade flask numpy peewee pymysql
 
@@ -30,10 +31,17 @@ git clone https://github.com/vincegellar/Advanced-Agriculture.git $APP_DIR
 cd $APP_DIR
 mysql -u root -proot -e "UPDATE mysql.user SET Grant_priv='Y' WHERE user = 'root'; FLUSH PRIVILEGES;"
 mysql -u root -proot < Database/create_mysql.sql
-sudo ln -s $APP_DIR/nginx.conf /etc/nginx/sites-enabled/advanced-agriculture
-sudo rm /etc/nginx/sites-enabled/default
-sudo service nginx restart
 sudo ln -s $APP_DIR/advanced-agriculture.service /etc/systemd/system/advanced-agriculture.service
 sudo systemctl daemon-reload
 sudo systemctl enable advanced-agriculture
 sudo service advanced-agriculture start
+
+# Build and start Web
+cd $APP_DIR/Web
+yarn
+yarn build
+rm -rf /var/www/html
+cp -R build /var/www/html
+sudo ln -s $APP_DIR/nginx.conf /etc/nginx/sites-enabled/advanced-agriculture
+sudo rm /etc/nginx/sites-enabled/default
+sudo service nginx start
