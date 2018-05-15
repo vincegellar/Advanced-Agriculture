@@ -18,6 +18,7 @@ class Measurement:
 
 
 hourly_measurements = {}
+last_measurement = {}
 logic_layer = PlantLogic()
 
 
@@ -38,6 +39,13 @@ def send_data():
     hourly_measurements[plant_id].light += light
     hourly_measurements[plant_id].moisture += moisture
     hourly_measurements[plant_id].measurement_count += 1
+    if plant_id not in last_measurement:
+        last_measurement[plant_id] = Measurement()
+    last_measurement[plant_id].water = water
+    last_measurement[plant_id].temperature = temperature
+    last_measurement[plant_id].humidity = humidity
+    last_measurement[plant_id].light = light
+    last_measurement[plant_id].moisture = moisture
     elapsed_measurement_time = hourly_measurements[plant_id].start - datetime.now()
     actuator_response = {'light_on': False, 'water_time': 0}
     if elapsed_measurement_time.seconds >= 3600:
@@ -66,6 +74,12 @@ def configure():
 @app.route('/web-ui/plants', methods=['GET'])
 def get_plants():
     response = logic_layer.get_plants()
+    for plant_id, measurement in last_measurement.items():
+        response[plant_id]['current_measurement'] = {'water_level': measurement.water,
+                                                     'temp': measurement.temperature,
+                                                     'humidity': measurement.humidity,
+                                                     'light': measurement.light,
+                                                     'soil_moisture': measurement.moisture}
     return jsonify(response)
 
 

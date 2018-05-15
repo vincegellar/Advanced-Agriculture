@@ -1,5 +1,5 @@
 from peewee import *
-from datetime import datetime, time
+from datetime import datetime, time, timedelta
 import configparser
 from os import path
 
@@ -62,7 +62,7 @@ db.connect()
 
 
 class PlantData:
-    def __init__(self, plant: Plants, settings: Settings=None):
+    def __init__(self, plant: Plants, settings: Settings = None):
         self.moisture_low = plant.SoilMoistureLowTreshold
         self.moisture_high = plant.SoilMoistureHighTreshold
         self.temp_low = plant.TemperatureLowTreshold
@@ -123,7 +123,36 @@ class DataAccess:
         return PlantData(plant[0], plant_settings[0])
 
     def get_plants(self):
-        pass
+        plants = Plants.select()
+        settings = Settings.select()
+        measurements = Measurements.select().where(Measurements.MeasureTime > datetime.now() - timedelta(days=1))
+        result = {}
+        for plant in plants:
+            plant_settings = settings.where(Settings.Plant == plant)
+            plant_measurements = measurements.where(Settings.Plant == plant)
+            result[plant.Id] = {'id': plant.Id, 'name': plant.Name}
+            result[plant.Id]['settings'] = {}
+            result[plant.Id]['measurements'] = {}
+            if settings.exists() and plant_settings.exists():
+                result[plant.Id]['settings'] = {'soil_moisture_low': plant.SoilMoistureLowTreshold,
+                                                'soil_moisture_high': plant.SoilMoistureLowTreshold,
+                                                'temp_low': plant.TemperatureLowTreshold,
+                                                'temp_high': plant.TemperatureHighTreshold,
+                                                'humidity_low': plant.HumidityLowTreshold,
+                                                'humidity_high': plant.HumidityHighTreshold,
+                                                'light_low': plant.LightLowTreshold,
+                                                'light_high': plant.LightHighTreshold,
+                                                'pot_size': plant.PotSize,
+                                                'dark_hours_start': settings.where}
+            if measurements.exists() and plant_measurements.exists():
+                for measurement in plant_measurements:
+                    result[plant.Id][measurements][measurement.MeasureTime] = {
+                        'soil_moisture': measurement.SoilMoisture,
+                        'temp': measurement.Temperature,
+                        'humidity': measurement.Humidity,
+                        'light': measurement.Light,
+                        'water_level': measurement.WaterLevel}
+        return result
 
     def get_current(self):
         pass
