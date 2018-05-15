@@ -143,7 +143,10 @@ class DataAccess:
                                                 'light_low': plant.LightLowTreshold,
                                                 'light_high': plant.LightHighTreshold,
                                                 'pot_size': plant.PotSize,
-                                                'dark_hours_start': settings.where}
+                                                'dark_hours_start': settings.DarkHoursStart,
+                                                'dark_hours_end': settings.DarkHoursEnd,
+                                                'silent_hours_start': settings.SilentHoursStart,
+                                                'silent_hours_end': settings.SilentHoursEnd}
             if measurements.exists() and plant_measurements.exists():
                 for measurement in plant_measurements:
                     result[plant.Id][measurements][measurement.MeasureTime] = {
