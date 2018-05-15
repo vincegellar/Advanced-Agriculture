@@ -135,7 +135,7 @@ class DataAccess:
             result[plant.Id]['measurements'] = {}
             if settings.exists() and plant_settings.exists():
                 result[plant.Id]['settings'] = {'soil_moisture_low': plant.SoilMoistureLowTreshold,
-                                                'soil_moisture_high': plant.SoilMoistureLowTreshold,
+                                                'soil_moisture_high': plant.SoilMoistureHighTreshold,
                                                 'temp_low': plant.TemperatureLowTreshold,
                                                 'temp_high': plant.TemperatureHighTreshold,
                                                 'humidity_low': plant.HumidityLowTreshold,
@@ -180,7 +180,7 @@ class DataAccess:
             settings = Settings.select().where(Settings.Plant == plant)
             if settings.exists():
                 result = {'soil_moisture_low': plant.SoilMoistureLowTreshold,
-                          'soil_moisture_high': plant.SoilMoistureLowTreshold,
+                          'soil_moisture_high': plant.SoilMoistureHighTreshold,
                           'temp_low': plant.TemperatureLowTreshold,
                           'temp_high': plant.TemperatureHighTreshold,
                           'humidity_low': plant.HumidityLowTreshold,
